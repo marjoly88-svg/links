@@ -102,7 +102,7 @@
       "items": [
         {
           "id": "chat",
-          "title": "チャット鑑定",
+          "title": "みなみとチャット",
           "sub": "ちょっと話したい夜に。キューピッズ",
           "icon": "🔗",
           "image": "https://i.postimg.cc/L6PNQPY0/キューピッズ_ロゴ.png",
@@ -112,7 +112,7 @@
         },
         {
           "id": "tel",
-          "title": "電話鑑定",
+          "title": "みなみとお喋り",
           "sub": "直接話せる安心感。南と話せる電話鑑定",
           "icon": "🔗",
           "image": "https://i.postimg.cc/XY5GtgmH/キューピッズ_(1).png",
