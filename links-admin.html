@@ -114,6 +114,25 @@
       border-radius: 8px; text-align: center; font-size: 18px;
       background: white; outline: none;
     }
+    .item-icon-wrap {
+      display: flex; flex-direction: column; gap: 4px; align-items: center; flex-shrink: 0;
+    }
+    .icon-preview {
+      width: 44px; height: 44px; border-radius: 8px; object-fit: cover;
+      border: 1px solid #f9d0db; display: none;
+    }
+    .btn-img-upload {
+      width: 44px; padding: 3px 0; font-size: 10px; color: #b07090;
+      background: #fff5f7; border: 1px dashed #f9d0db; border-radius: 6px;
+      cursor: pointer; text-align: center; line-height: 1.3;
+    }
+    .btn-img-upload:hover { border-color: #e8607a; color: #e8607a; }
+    .img-url-input {
+      width: 44px; padding: 3px 4px; border: 1px solid #f9d0db;
+      border-radius: 6px; font-size: 9px; color: #5a3040; outline: none;
+      background: white; display: none;
+    }
+    .img-url-input:focus { border-color: #e8607a; }
     .item-inputs { flex: 1; display: flex; flex-direction: column; gap: 6px; }
     .item-input {
       width: 100%; padding: 6px 10px; border: 1px solid #f9d0db;
@@ -302,13 +321,14 @@
         const id = el.dataset.id;
         const origItem = section.items.find(i => i.id === id) || {};
         const icon = el.querySelector('.item-icon-input').value;
+        const imageUrl = el.querySelector('.img-url-input').value.trim();
         const inputs = el.querySelectorAll('.item-input');
         const visible = el.querySelector('.toggle-btn').classList.contains('on');
 
         if (section.type === 'sns') {
-          newItems.push({ id, label: inputs[0].value, icon, url: inputs[1].value, visible });
+          newItems.push({ id, label: inputs[0].value, icon, image: imageUrl, url: inputs[1].value, visible });
         } else {
-          newItems.push({ id, title: inputs[0].value, sub: inputs[1].value, icon, url: inputs[2].value, badge: origItem.badge || '', visible });
+          newItems.push({ id, title: inputs[0].value, sub: inputs[1].value, icon, image: imageUrl, url: inputs[2].value, badge: origItem.badge || '', visible });
         }
       });
       section.items = newItems;
@@ -356,9 +376,16 @@
       `;
     }
 
+    const hasImage = item.image && item.image.trim();
     row.innerHTML = `
       <span class="drag-handle">⠿</span>
-      <input class="item-icon-input" value="${item.icon || '🔗'}" placeholder="絵文字">
+      <div class="item-icon-wrap">
+        <img class="icon-preview" src="${hasImage ? item.image : ''}" style="${hasImage ? 'display:block' : ''}">
+        <input class="item-icon-input" value="${item.icon || '🔗'}" placeholder="絵文字" style="${hasImage ? 'display:none' : ''}">
+        <label class="btn-img-upload" title="画像をアップロード">📁<br>画像<input type="file" accept="image/*" style="display:none" onchange="onImageFile(this)"></label>
+        <input class="img-url-input" placeholder="画像URL" value="${hasImage ? item.image : ''}" onchange="onImageUrl(this)" onfocus="this.style.display='block'" onblur="if(!this.value)this.style.display='none'" style="${hasImage ? 'display:block' : ''}">
+        <button class="btn-img-upload" onclick="clearImage(this)" style="display:${hasImage ? 'block' : 'none'};background:#fce8ee;color:#e8607a;border-style:solid">✕ 削除</button>
+      </div>
       <div class="item-inputs">${inputs}</div>
       <div class="item-controls">
         <button class="toggle-btn ${item.visible ? 'on' : 'off'}" onclick="toggleVisible(this)"></button>
@@ -403,6 +430,52 @@
         row.classList.remove('drag-over');
       });
     });
+  }
+
+  // 画像ファイルをbase64に変換してプレビュー
+  function onImageFile(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const wrap = input.closest('.item-icon-wrap');
+      setImage(wrap, e.target.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // 画像URLを入力してプレビュー
+  function onImageUrl(input) {
+    const wrap = input.closest('.item-icon-wrap');
+    if (input.value.trim()) {
+      setImage(wrap, input.value.trim());
+    }
+  }
+
+  function setImage(wrap, src) {
+    const preview = wrap.querySelector('.icon-preview');
+    const iconInput = wrap.querySelector('.item-icon-input');
+    const urlInput = wrap.querySelector('.img-url-input');
+    const delBtn = wrap.querySelector('button.btn-img-upload');
+    preview.src = src;
+    preview.style.display = 'block';
+    iconInput.style.display = 'none';
+    urlInput.value = src;
+    urlInput.style.display = 'block';
+    delBtn.style.display = 'block';
+  }
+
+  function clearImage(btn) {
+    const wrap = btn.closest('.item-icon-wrap');
+    const preview = wrap.querySelector('.icon-preview');
+    const iconInput = wrap.querySelector('.item-icon-input');
+    const urlInput = wrap.querySelector('.img-url-input');
+    preview.src = '';
+    preview.style.display = 'none';
+    iconInput.style.display = 'block';
+    urlInput.value = '';
+    urlInput.style.display = 'none';
+    btn.style.display = 'none';
   }
 
   // トースト
