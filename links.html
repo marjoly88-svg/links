@@ -417,10 +417,21 @@
 
   async function loadLinks() {
     try {
+      let data;
       const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/links.json`);
-      if (!res.ok) throw new Error('fetch failed');
-      const json = await res.json();
-      const data = JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g, '')))));
+      if (res.ok) {
+        const json = await res.json();
+        if (json.content) {
+          // 1MB以下：通常のデコード
+          data = JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g, '')))));
+        } else if (json.sha) {
+          // 1MB超：blobsAPIで取得
+          const blobRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/git/blobs/${json.sha}`);
+          const blob = await blobRes.json();
+          data = JSON.parse(decodeURIComponent(escape(atob(blob.content.replace(/\n/g, '')))));
+        }
+      }
+      if (!data) throw new Error('fetch failed');
       if (data.profile && data.profile.image) {
         const wrap = document.querySelector('.avatar-wrap');
         wrap.innerHTML = `<img class="avatar" src="${data.profile.image}" alt="プロフィール画像">`;
