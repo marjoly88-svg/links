@@ -375,27 +375,30 @@
     /* タブ */
     .tabs {
       display: flex;
+      gap: 4px;
       margin: 20px 0 16px;
-      border-bottom: 1px solid #f0d0d8;
+      background: #f9d0db;
+      border-radius: 14px;
+      padding: 5px;
     }
     .tab-btn {
       flex: 1;
-      padding: 10px 0;
+      padding: 8px 0;
       border: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
+      border-radius: 10px;
       font-size: 13px;
       font-family: 'Noto Sans JP', sans-serif;
       font-weight: 500;
       cursor: pointer;
       background: transparent;
-      color: #c0a0b0;
+      color: #c08090;
       letter-spacing: 0.05em;
-      transition: color 0.2s, border-color 0.2s;
+      transition: all 0.2s;
     }
     .tab-btn.active {
+      background: white;
       color: var(--accent);
-      border-bottom-color: var(--accent);
+      box-shadow: 0 2px 8px rgba(232,96,122,0.15);
     }
 
     /* ショップグリッド */
