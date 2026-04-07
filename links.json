@@ -160,5 +160,15 @@
         }
       ]
     }
+  ],
+  "shop_items": [
+    {
+      "id": "shop1",
+      "image": "",
+      "title": "サンプル商品",
+      "description": "商品の説明文を入力してください",
+      "url": "https://minamisan.stores.jp/",
+      "visible": true
+    }
   ]
 }

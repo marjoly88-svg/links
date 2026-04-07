@@ -169,6 +169,30 @@
       opacity: 0; transition: opacity 0.3s; pointer-events: none;
     }
     .toast.show { opacity: 1; }
+
+    /* ショップアイテム */
+    .shop-item-row {
+      border: 1px solid #f9d0db; border-radius: 12px;
+      margin-bottom: 10px; background: #fff5f7; overflow: hidden;
+    }
+    .shop-item-top {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; cursor: grab;
+    }
+    .shop-item-top:active { cursor: grabbing; }
+    .shop-item-preview {
+      width: 56px; height: 56px; border-radius: 8px; object-fit: cover;
+      border: 1px solid #f9d0db; flex-shrink: 0; background: #fce8ee;
+      display: flex; align-items: center; justify-content: center; font-size: 22px; overflow: hidden;
+    }
+    .shop-item-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .shop-item-inputs { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+    .shop-item-desc {
+      width: 100%; padding: 5px 10px; border: 1px solid #f9d0db;
+      border-radius: 8px; font-size: 12px; color: #5a3040;
+      font-family: 'Noto Sans JP', sans-serif; outline: none; background: white; resize: vertical;
+    }
+    .shop-item-desc:focus { border-color: #e8607a; }
   </style>
 </head>
 <body>
@@ -241,6 +265,15 @@
 
     <!-- セクション一覧 -->
     <div id="sections-container"></div>
+
+    <!-- ショップ商品管理 -->
+    <div class="section-block">
+      <div class="section-header">
+        <div class="section-title-text">🛍️ ショップ商品</div>
+        <button class="btn-add-item" onclick="addShopItem()">＋ 追加</button>
+      </div>
+      <div class="items-list" id="shop-items-list"></div>
+    </div>
   </div>
 </div>
 
@@ -298,6 +331,7 @@
         data = JSON.parse(decodeURIComponent(escape(atob(blob.content.replace(/\n/g, '')))));
       }
       renderSections();
+      renderShopItems();
       updateProfilePreview((data.profile && data.profile.image) || '');
       const urlEl = document.getElementById('profile-img-url');
       if (urlEl) urlEl.value = (data.profile && data.profile.image) || '';
@@ -362,6 +396,19 @@
     data.profile = data.profile || {};
     data.profile.image = document.getElementById('profile-img-url').value.trim();
     data.profile.bio = document.getElementById('profile-bio').value.trim();
+
+    // ショップ商品を収集
+    data.shop_items = [];
+    document.querySelectorAll('.shop-item-row').forEach(el => {
+      data.shop_items.push({
+        id: el.dataset.id,
+        image: el.querySelector('.shop-img-url').value.trim(),
+        title: el.querySelector('.shop-title').value,
+        description: el.querySelector('.shop-desc').value,
+        url: el.querySelector('.shop-url').value,
+        visible: el.querySelector('.toggle-btn').classList.contains('on')
+      });
+    });
 
     data.sections.forEach((section, si) => {
       const itemEls = document.querySelectorAll(`[data-section="${si}"] .item-row`);
@@ -548,6 +595,88 @@
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
+  }
+
+  // ショップ商品描画
+  function renderShopItems() {
+    const list = document.getElementById('shop-items-list');
+    list.innerHTML = '';
+    (data.shop_items || []).forEach(item => renderShopItem(list, item));
+    initShopDrag(list);
+  }
+
+  function renderShopItem(list, item) {
+    const div = document.createElement('div');
+    div.className = 'shop-item-row';
+    div.dataset.id = item.id;
+    div.draggable = true;
+    const hasImg = item.image && item.image.trim();
+    div.innerHTML = `
+      <div class="shop-item-top">
+        <span class="drag-handle">⠿</span>
+        <div class="shop-item-preview" onclick="this.nextElementSibling.querySelector('input[type=file]').click()">
+          ${hasImg ? `<img src="${hasImg}" alt="">` : '🛍️'}
+        </div>
+        <div class="shop-item-inputs">
+          <input class="item-input shop-title" placeholder="タイトル" value="${item.title || ''}">
+          <div style="display:flex;gap:6px;align-items:center">
+            <span style="font-size:10px;color:#b07090;flex-shrink:0">🖼️</span>
+            <input class="item-input shop-img-url" placeholder="画像URL（任意）" value="${item.image || ''}" oninput="onShopImgUrl(this)" style="font-size:11px;color:#b07090">
+            <label class="btn-file" style="flex-shrink:0">📁<input type="file" accept="image/*" style="display:none" onchange="onShopImgFile(this)"></label>
+          </div>
+          <input class="item-input url shop-url" placeholder="リンクURL" value="${item.url || ''}">
+        </div>
+        <div class="item-controls">
+          <button class="toggle-btn ${item.visible !== false ? 'on' : 'off'}" onclick="toggleVisible(this)"></button>
+          <button class="btn-delete" onclick="deleteShopItem(this)">✕</button>
+        </div>
+      </div>
+      <div style="padding:0 12px 10px">
+        <textarea class="shop-desc item-input" placeholder="説明文（任意）" rows="2" style="resize:vertical">${item.description || ''}</textarea>
+      </div>
+    `;
+    list.appendChild(div);
+  }
+
+  function addShopItem() {
+    if (!data.shop_items) data.shop_items = [];
+    const newItem = { id: 'shop_' + Date.now(), image: '', title: '新商品', description: '', url: '', visible: true };
+    data.shop_items.push(newItem);
+    const list = document.getElementById('shop-items-list');
+    renderShopItem(list, newItem);
+    initShopDrag(list);
+  }
+
+  function deleteShopItem(btn) {
+    if (confirm('削除しますか？')) btn.closest('.shop-item-row').remove();
+  }
+
+  function onShopImgUrl(input) {
+    const preview = input.closest('.shop-item-inputs').previousElementSibling;
+    const src = input.value.trim();
+    preview.innerHTML = src ? `<img src="${src}" alt="">` : '🛍️';
+  }
+
+  function onShopImgFile(input) {
+    const file = input.files[0];
+    if (!file) return;
+    resizeImage(file, 400, dataUrl => {
+      const row = input.closest('.shop-item-row');
+      const urlInput = row.querySelector('.shop-img-url');
+      urlInput.value = dataUrl;
+      onShopImgUrl(urlInput);
+    });
+  }
+
+  function initShopDrag(list) {
+    let dragging = null;
+    list.querySelectorAll('.shop-item-row').forEach(row => {
+      row.addEventListener('dragstart', () => { dragging = row; row.style.opacity = '0.5'; });
+      row.addEventListener('dragend', () => { dragging = null; row.style.opacity = ''; list.querySelectorAll('.shop-item-row').forEach(r => r.style.borderColor = ''); });
+      row.addEventListener('dragover', e => { e.preventDefault(); if (dragging && row !== dragging) row.style.borderColor = '#e8607a'; });
+      row.addEventListener('dragleave', () => row.style.borderColor = '');
+      row.addEventListener('drop', e => { e.preventDefault(); if (dragging && row !== dragging) list.insertBefore(dragging, row); row.style.borderColor = ''; });
+    });
   }
 
   // トースト
