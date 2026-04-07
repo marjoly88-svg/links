@@ -1,6 +1,7 @@
 {
   "profile": {
-    "image": "https://i.postimg.cc/bYMwZc6k/cf66b6949354dfb9dff994871d80e46e.png"
+    "image": "https://i.postimg.cc/bYMwZc6k/cf66b6949354dfb9dff994871d80e46e.png",
+    "bio": "四柱推命・数秘術・タロット歴20年以上\nお辛い時は一人で抱え込まずに、\nお話聞かせてください💞"
   },
   "sections": [
     {
@@ -97,7 +98,7 @@
     },
     {
       "id": "kantel",
-      "title": "✦ 鑑定を受ける",
+      "title": "✦ 南の鑑定を受ける",
       "type": "card",
       "items": [
         {

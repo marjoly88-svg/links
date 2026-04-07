@@ -32,6 +32,10 @@
       font-family: 'Hanazome';
       src: url('hanazome.ttf') format('truetype');
     }
+    @font-face {
+      font-family: 'Mamelon';
+      src: url('Mamelon-5-Hi-Regular.otf') format('opentype');
+    }
   </style>
 
   <style>
@@ -145,7 +149,7 @@
     }
 
     .name {
-      font-family: 'Hanazome', serif;
+      font-family: 'Mamelon', 'Hanazome', serif;
       font-size: 22px;
       letter-spacing: 0.1em;
       color: var(--text);
@@ -396,9 +400,9 @@
       <!-- <img class="avatar" src="プロフ画像URL" alt="七水南"> -->
     </div>
 
-    <div class="name">七水 南／魔女のみなみさん</div>
+    <div class="name" id="profile-name">七水 南／魔女のみなみさん</div>
 
-    <p class="bio">
+    <p class="bio" id="profile-bio">
       四柱推命・数秘術・タロット歴20年以上<br>
       お辛い時は一人で抱え込まずに、<br>お話聞かせてください💞
     </p>
@@ -432,9 +436,14 @@
         }
       }
       if (!data) throw new Error('fetch failed');
-      if (data.profile && data.profile.image) {
-        const wrap = document.querySelector('.avatar-wrap');
-        wrap.innerHTML = `<img class="avatar" src="${data.profile.image}" alt="プロフィール画像">`;
+      if (data.profile) {
+        if (data.profile.image) {
+          const wrap = document.querySelector('.avatar-wrap');
+          wrap.innerHTML = `<img class="avatar" src="${data.profile.image}" alt="プロフィール画像">`;
+        }
+        if (data.profile.bio) {
+          document.getElementById('profile-bio').innerHTML = data.profile.bio.replace(/\n/g, '<br>');
+        }
       }
       renderSections(data.sections);
     } catch(e) {
