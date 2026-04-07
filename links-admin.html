@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>リンク管理画面</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans JP', sans-serif; background: #fff5f7; color: #5a3040; min-height: 100vh; }
+
+    /* ログイン画面 */
+    #login-screen {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh;
+    }
+    .login-box {
+      background: white; border-radius: 20px; padding: 40px;
+      box-shadow: 0 4px 24px rgba(232,96,122,0.12);
+      text-align: center; width: 320px;
+    }
+    .login-box h1 { font-size: 20px; margin-bottom: 8px; color: #5a3040; }
+    .login-box p { font-size: 12px; color: #b07090; margin-bottom: 24px; }
+    .login-box input {
+      width: 100%; padding: 12px 16px; border: 1px solid #f9d0db;
+      border-radius: 12px; font-size: 14px; margin-bottom: 12px;
+      font-family: 'Noto Sans JP', sans-serif; color: #5a3040;
+      outline: none;
+    }
+    .login-box input:focus { border-color: #e8607a; }
+    .btn-primary {
+      width: 100%; padding: 12px; background: #e8607a; color: white;
+      border: none; border-radius: 12px; font-size: 14px; cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif; font-weight: 500;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #d04060; }
+    .error-msg { color: #e8607a; font-size: 12px; margin-top: 8px; }
+
+    /* メイン管理画面 */
+    #admin-screen { display: none; }
+    .header {
+      background: white; padding: 16px 24px;
+      border-bottom: 1px solid #f9d0db;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header h1 { font-size: 16px; color: #5a3040; }
+    .header-btns { display: flex; gap: 10px; align-items: center; }
+    .btn-save {
+      padding: 8px 20px; background: #e8607a; color: white;
+      border: none; border-radius: 10px; font-size: 13px; cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif; font-weight: 500;
+      transition: background 0.2s;
+    }
+    .btn-save:hover { background: #d04060; }
+    .btn-save:disabled { background: #f9a8c0; cursor: not-allowed; }
+    .btn-logout {
+      padding: 8px 16px; background: transparent; color: #b07090;
+      border: 1px solid #f9d0db; border-radius: 10px; font-size: 12px;
+      cursor: pointer; font-family: 'Noto Sans JP', sans-serif;
+    }
+    .save-status { font-size: 12px; color: #b07090; }
+
+    .container { max-width: 700px; margin: 0 auto; padding: 24px 16px; }
+
+    /* 設定エリア */
+    .settings-box {
+      background: white; border-radius: 16px; padding: 20px;
+      border: 1px solid #f9d0db; margin-bottom: 20px;
+    }
+    .settings-box h2 { font-size: 13px; color: #b07090; margin-bottom: 16px; letter-spacing: 0.1em; }
+    .form-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+    .form-row label { font-size: 12px; color: #b07090; width: 120px; flex-shrink: 0; }
+    .form-row input {
+      flex: 1; padding: 8px 12px; border: 1px solid #f9d0db;
+      border-radius: 8px; font-size: 13px; color: #5a3040;
+      font-family: 'Noto Sans JP', sans-serif; outline: none;
+    }
+    .form-row input:focus { border-color: #e8607a; }
+    .form-row input[type="password"] { letter-spacing: 0.1em; }
+
+    /* セクション */
+    .section-block {
+      background: white; border-radius: 16px; padding: 20px;
+      border: 1px solid #f9d0db; margin-bottom: 16px;
+    }
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .section-title-text { font-size: 14px; font-weight: 500; color: #5a3040; }
+    .btn-add-item {
+      padding: 6px 14px; background: #fce8ee; color: #e8607a;
+      border: 1px solid #f9d0db; border-radius: 8px; font-size: 12px;
+      cursor: pointer; font-family: 'Noto Sans JP', sans-serif;
+    }
+    .btn-add-item:hover { background: #f9d0db; }
+
+    /* アイテム */
+    .item-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border: 1px solid #f9d0db;
+      border-radius: 12px; margin-bottom: 8px; background: #fff5f7;
+      cursor: grab;
+    }
+    .item-row:active { cursor: grabbing; }
+    .item-row.dragging { opacity: 0.5; }
+    .item-row.drag-over { border-color: #e8607a; background: #fce8ee; }
+
+    .drag-handle { color: #f9a8c0; font-size: 16px; cursor: grab; user-select: none; }
+    .item-icon-input {
+      width: 44px; padding: 6px; border: 1px solid #f9d0db;
+      border-radius: 8px; text-align: center; font-size: 18px;
+      background: white; outline: none;
+    }
+    .item-inputs { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .item-input {
+      width: 100%; padding: 6px 10px; border: 1px solid #f9d0db;
+      border-radius: 8px; font-size: 12px; color: #5a3040;
+      font-family: 'Noto Sans JP', sans-serif; outline: none; background: white;
+    }
+    .item-input:focus { border-color: #e8607a; }
+    .item-input.url { font-size: 11px; color: #b07090; }
+
+    .item-controls { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+    .toggle-btn {
+      width: 36px; height: 20px; border-radius: 10px; border: none;
+      cursor: pointer; position: relative; transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .toggle-btn.on { background: #e8607a; }
+    .toggle-btn.off { background: #f9d0db; }
+    .toggle-btn::after {
+      content: ''; position: absolute; width: 14px; height: 14px;
+      background: white; border-radius: 50%; top: 3px; transition: left 0.2s;
+    }
+    .toggle-btn.on::after { left: 19px; }
+    .toggle-btn.off::after { left: 3px; }
+    .btn-delete {
+      background: none; border: none; color: #f9a8c0; font-size: 16px;
+      cursor: pointer; padding: 0; line-height: 1;
+    }
+    .btn-delete:hover { color: #e8607a; }
+
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: #5a3040; color: white; padding: 12px 24px;
+      border-radius: 12px; font-size: 13px; z-index: 999;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none;
+    }
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<!-- ログイン画面 -->
+<div id="login-screen">
+  <div class="login-box">
+    <div style="font-size:36px;margin-bottom:12px">🔮</div>
+    <h1>リンク管理画面</h1>
+    <p>パスワードを入力してください</p>
+    <input type="password" id="password-input" placeholder="パスワード" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn-primary" onclick="login()">ログイン</button>
+    <div class="error-msg" id="login-error"></div>
+  </div>
+</div>
+
+<!-- 管理画面 -->
+<div id="admin-screen">
+  <div class="header">
+    <h1>🌸 リンク管理</h1>
+    <div class="header-btns">
+      <span class="save-status" id="save-status"></span>
+      <button class="btn-save" id="save-btn" onclick="saveToGitHub()">GitHubに保存</button>
+      <button class="btn-logout" onclick="logout()">ログアウト</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- GitHub設定 -->
+    <div class="settings-box">
+      <h2>⚙️ GitHub設定（初回のみ）</h2>
+      <div class="form-row">
+        <label>GitHubトークン</label>
+        <input type="password" id="gh-token" placeholder="ghp_XXXXXXXXXXXXX">
+      </div>
+      <div class="form-row">
+        <label>ユーザー名</label>
+        <input type="text" id="gh-user" value="marjoly88-svg">
+      </div>
+      <div class="form-row">
+        <label>リポジトリ名</label>
+        <input type="text" id="gh-repo" value="links">
+      </div>
+      <div style="font-size:11px;color:#b07090;margin-top:4px">※ トークンはこのブラウザにのみ保存されます</div>
+    </div>
+
+    <!-- セクション一覧 -->
+    <div id="sections-container"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const ADMIN_PASSWORD = 'minami2024'; // ← ここを変更してね
+
+  let data = null;
+
+  // ログイン
+  function login() {
+    const pw = document.getElementById('password-input').value;
+    if (pw === ADMIN_PASSWORD) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-screen').style.display = 'block';
+      // 保存済みトークン復元
+      const saved = localStorage.getItem('gh_token');
+      if (saved) document.getElementById('gh-token').value = saved;
+      loadFromGitHub();
+    } else {
+      document.getElementById('login-error').textContent = 'パスワードが違います';
+    }
+  }
+
+  function logout() {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('admin-screen').style.display = 'none';
+    document.getElementById('password-input').value = '';
+  }
+
+  // GitHubからJSONを読み込む
+  async function loadFromGitHub() {
+    const user = document.getElementById('gh-user').value;
+    const repo = document.getElementById('gh-repo').value;
+    try {
+      const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/links.json?t=${Date.now()}`);
+      if (!res.ok) throw new Error('ファイルが見つかりません');
+      const json = await res.json();
+      data = JSON.parse(atob(json.content.replace(/\n/g, '')));
+      renderSections();
+      showToast('読み込み完了！');
+    } catch(e) {
+      showToast('読み込み失敗: ' + e.message);
+    }
+  }
+
+  // GitHubに保存
+  async function saveToGitHub() {
+    const token = document.getElementById('gh-token').value;
+    const user = document.getElementById('gh-user').value;
+    const repo = document.getElementById('gh-repo').value;
+    if (!token) { showToast('GitHubトークンを入力してください'); return; }
+
+    // トークン保存
+    localStorage.setItem('gh_token', token);
+
+    const btn = document.getElementById('save-btn');
+    btn.disabled = true;
+    btn.textContent = '保存中...';
+
+    // 現在のSHAを取得
+    try {
+      const getRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/links.json`, {
+        headers: { 'Authorization': `token ${token}` }
+      });
+      const getJson = await getRes.json();
+      const sha = getJson.sha;
+
+      // データを収集
+      collectData();
+
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+      const putRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/links.json`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: 'リンク更新',
+          content: content,
+          sha: sha
+        })
+      });
+      if (!putRes.ok) throw new Error('保存失敗');
+      showToast('✅ 保存しました！Vercelが自動デプロイ中...');
+      document.getElementById('save-status').textContent = '最終保存: ' + new Date().toLocaleTimeString('ja-JP');
+    } catch(e) {
+      showToast('❌ 保存失敗: ' + e.message);
+    }
+    btn.disabled = false;
+    btn.textContent = 'GitHubに保存';
+  }
+
+  // 画面からデータを収集
+  function collectData() {
+    data.sections.forEach((section, si) => {
+      const itemEls = document.querySelectorAll(`[data-section="${si}"] .item-row`);
+      const newItems = [];
+      itemEls.forEach(el => {
+        const id = el.dataset.id;
+        const origItem = section.items.find(i => i.id === id) || {};
+        const icon = el.querySelector('.item-icon-input').value;
+        const inputs = el.querySelectorAll('.item-input');
+        const visible = el.querySelector('.toggle-btn').classList.contains('on');
+
+        if (section.type === 'sns') {
+          newItems.push({ id, label: inputs[0].value, icon, url: inputs[1].value, visible });
+        } else {
+          newItems.push({ id, title: inputs[0].value, sub: inputs[1].value, icon, url: inputs[2].value, badge: origItem.badge || '', visible });
+        }
+      });
+      section.items = newItems;
+    });
+  }
+
+  // 画面描画
+  function renderSections() {
+    const container = document.getElementById('sections-container');
+    container.innerHTML = '';
+    data.sections.forEach((section, si) => {
+      const block = document.createElement('div');
+      block.className = 'section-block';
+      block.innerHTML = `
+        <div class="section-header">
+          <div class="section-title-text">${section.title}</div>
+          <button class="btn-add-item" onclick="addItem(${si})">＋ 追加</button>
+        </div>
+        <div class="items-list" data-section="${si}"></div>
+      `;
+      container.appendChild(block);
+      const list = block.querySelector('.items-list');
+      section.items.forEach(item => renderItem(list, item, section.type, si));
+      initDrag(list);
+    });
+  }
+
+  function renderItem(list, item, type, si) {
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    row.dataset.id = item.id;
+    row.draggable = true;
+
+    let inputs = '';
+    if (type === 'sns') {
+      inputs = `
+        <input class="item-input" placeholder="ラベル" value="${item.label || ''}">
+        <input class="item-input url" placeholder="URL" value="${item.url || ''}">
+      `;
+    } else {
+      inputs = `
+        <input class="item-input" placeholder="タイトル" value="${item.title || ''}">
+        <input class="item-input" placeholder="サブテキスト" value="${item.sub || ''}">
+        <input class="item-input url" placeholder="URL" value="${item.url || ''}">
+      `;
+    }
+
+    row.innerHTML = `
+      <span class="drag-handle">⠿</span>
+      <input class="item-icon-input" value="${item.icon || '🔗'}" placeholder="絵文字">
+      <div class="item-inputs">${inputs}</div>
+      <div class="item-controls">
+        <button class="toggle-btn ${item.visible ? 'on' : 'off'}" onclick="toggleVisible(this)"></button>
+        <button class="btn-delete" onclick="deleteItem(this)">✕</button>
+      </div>
+    `;
+    list.appendChild(row);
+  }
+
+  function toggleVisible(btn) {
+    btn.classList.toggle('on');
+    btn.classList.toggle('off');
+  }
+
+  function deleteItem(btn) {
+    if (confirm('削除しますか？')) btn.closest('.item-row').remove();
+  }
+
+  function addItem(si) {
+    const section = data.sections[si];
+    const newId = 'item_' + Date.now();
+    const newItem = section.type === 'sns'
+      ? { id: newId, label: '新しいリンク', icon: '🔗', url: '', visible: true }
+      : { id: newId, title: '新しいリンク', sub: '', icon: '🔗', url: '', badge: '', visible: true };
+    section.items.push(newItem);
+    const list = document.querySelector(`[data-section="${si}"]`);
+    renderItem(list, newItem, section.type, si);
+    initDrag(list);
+  }
+
+  // ドラッグ＆ドロップ
+  function initDrag(list) {
+    let dragging = null;
+    list.querySelectorAll('.item-row').forEach(row => {
+      row.addEventListener('dragstart', () => { dragging = row; row.classList.add('dragging'); });
+      row.addEventListener('dragend', () => { dragging = null; row.classList.remove('dragging'); list.querySelectorAll('.item-row').forEach(r => r.classList.remove('drag-over')); });
+      row.addEventListener('dragover', e => { e.preventDefault(); if (dragging && row !== dragging) row.classList.add('drag-over'); });
+      row.addEventListener('dragleave', () => row.classList.remove('drag-over'));
+      row.addEventListener('drop', e => {
+        e.preventDefault();
+        if (dragging && row !== dragging) list.insertBefore(dragging, row);
+        row.classList.remove('drag-over');
+      });
+    });
+  }
+
+  // トースト
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+</script>
+</body>
+</html>

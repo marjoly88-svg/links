@@ -1,0 +1,45 @@
+{
+  "sections": [
+    {
+      "id": "sns",
+      "title": "✦ SNS・連絡先",
+      "type": "sns",
+      "items": [
+        { "id": "line", "label": "LINE", "icon": "💚", "url": "https://lin.ee/i94pN1y", "visible": true },
+        { "id": "tiktok", "label": "TikTok", "icon": "🎵", "url": "https://www.tiktok.com/@yumenotarot", "visible": true },
+        { "id": "youtube", "label": "YouTube", "icon": "▶️", "url": "https://www.youtube.com/channel/UCvjidioUBAI9c4O8OLicLCw/featured?sub_confirmation=1", "visible": true },
+        { "id": "instagram", "label": "Instagram", "icon": "📸", "url": "https://www.instagram.com/yumenouranai/", "visible": true },
+        { "id": "twitter", "label": "X", "icon": "𝕏", "url": "https://twitter.com/yumenouranai", "visible": true },
+        { "id": "email", "label": "お仕事依頼", "icon": "📧", "url": "mailto:yumemetarot@gmail.com", "visible": true }
+      ]
+    },
+    {
+      "id": "pr",
+      "title": "✦ おすすめ",
+      "type": "card",
+      "items": [
+        { "id": "pr1", "title": "魂の絆を取り戻す復縁・不倫専門鑑定", "sub": "複雑な恋愛・復縁のお悩みに", "icon": "💖", "url": "https://px.a8.net/svt/ejp?a8mat=45DWQ9+AGVEPE+48YY+5YJRM", "badge": "PR", "visible": true },
+        { "id": "pr2", "title": "初回最大30分無料！実力派占い師多数", "sub": "複雑な恋愛問題を解決する占い鑑定", "icon": "🔮", "url": "https://px.a8.net/svt/ejp?a8mat=3ZJQZ3+CWE4MQ+2PEO+BX3J5", "badge": "PR", "visible": true },
+        { "id": "pr3", "title": "遠隔霊視で叶える恋愛成就", "sub": "業界No.1・総勢1400名以上在籍", "icon": "⭐", "url": "https://px.a8.net/svt/ejp?a8mat=4AXA8C+E8M8MQ+2PEO+1HKDAR&a8ejpredirect=https://coconala.com/categories/2?service_kind=0", "badge": "PR", "visible": true }
+      ]
+    },
+    {
+      "id": "kantel",
+      "title": "✦ 鑑定を受ける",
+      "type": "card",
+      "items": [
+        { "id": "chat", "title": "チャット鑑定", "sub": "ちょっと話したい夜に。キューピッズ", "icon": "💬", "url": "https://cupids-seven.vercel.app/index.html", "badge": "", "visible": true },
+        { "id": "tel", "title": "電話鑑定", "sub": "直接話せる安心感。南と話せる電話鑑定", "icon": "📞", "url": "https://cupids-denwa.vercel.app/", "badge": "", "visible": true },
+        { "id": "mail", "title": "メール鑑定・各種購入", "sub": "魔女のみなみさん オンラインショップ", "icon": "📩", "url": "https://minamisan.stores.jp/", "badge": "", "visible": true }
+      ]
+    },
+    {
+      "id": "shop",
+      "title": "✦ ショップ",
+      "type": "card",
+      "items": [
+        { "id": "base", "title": "魔法雑貨店 マジカルマーケット", "sub": "祈祷入り形代・パワーストーン", "icon": "🧿", "url": "https://marjoly.base.shop/", "badge": "", "visible": true }
+      ]
+    }
+  ]
+}

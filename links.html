@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>七水 南｜占い師</title>
+  <meta name="description" content="占い師・七水南のリンク集。タロット・四柱推命・数秘術で20年以上の経験。チャット鑑定・電話鑑定受付中。">
+
+  <!-- Google Analytics -->
+  <!-- GA_TRACKING_ID を自分のG-XXXXXXXXXXに差し替えてね -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_TRACKING_ID');
+
+    // リンククリック計測
+    function trackClick(label) {
+      gtag('event', 'click', {
+        event_category: 'link',
+        event_label: label
+      });
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Hanazome';
+      src: url('hanazome.ttf') format('truetype');
+    }
+  </style>
+
+  <style>
+    :root {
+      --bg: #fff5f7;
+      --card: #ffffff;
+      --card-hover: #fff0f4;
+      --border: #f9d0db;
+      --border-hover: #f4a0b8;
+      --text: #5a3040;
+      --text-sub: #b07090;
+      --accent: #e8607a;
+      --accent2: #f9a8c0;
+      --pink-light: #fce8ee;
+      --pink-mid: #f9d0db;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* リボン背景パターン */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='10' y='35' font-size='22' opacity='0.07'%3E🎀%3C/text%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 40% at 50% 0%, rgba(255,182,200,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 30% at 100% 100%, rgba(255,200,220,0.2) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 40px 18px 64px;
+    }
+
+    /* プロフィール */
+    .profile {
+      text-align: center;
+      margin-bottom: 32px;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .avatar-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f9a8c0, #e8607a, #f9d0db, #f9a8c0);
+      animation: spin 5s linear infinite;
+    }
+
+    .avatar-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 50%;
+      background: var(--bg);
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .avatar {
+      position: relative;
+      z-index: 1;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .avatar-placeholder {
+      position: relative;
+      z-index: 1;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fce8ee, #f9d0db);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+    }
+
+    .name {
+      font-family: 'Hanazome', serif;
+      font-size: 22px;
+      letter-spacing: 0.1em;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .name-sub {
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      margin-bottom: 12px;
+    }
+
+    .bio {
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.9;
+      max-width: 300px;
+      margin: 0 auto 16px;
+    }
+
+    .follower-row {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-top: 16px;
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .follower-item {
+      flex: 1;
+      text-align: center;
+      padding: 12px 8px;
+      border-right: 1px solid var(--border);
+    }
+
+    .follower-item:last-child { border-right: none; }
+
+    .follower-num {
+      font-family: 'Zen Antique Soft', serif;
+      font-size: 17px;
+      color: var(--accent);
+      display: block;
+    }
+
+    .follower-label {
+      font-size: 10px;
+      color: var(--text-sub);
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* セクション */
+    .section {
+      margin-bottom: 24px;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .section:nth-child(2) { animation-delay: 0.08s; }
+    .section:nth-child(3) { animation-delay: 0.16s; }
+    .section:nth-child(4) { animation-delay: 0.24s; }
+    .section:nth-child(5) { animation-delay: 0.32s; }
+
+    .section-title {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      margin-bottom: 10px;
+      padding-left: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--pink-mid), transparent);
+    }
+
+    /* リンクカード */
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--text);
+      margin-bottom: 10px;
+      transition: all 0.22s ease;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(232,96,122,0.06);
+    }
+
+    .link-card:hover {
+      border-color: var(--border-hover);
+      background: var(--card-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(232,96,122,0.13);
+    }
+
+    .link-card:active { transform: translateY(0); }
+
+    .card-icon {
+      font-size: 22px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--pink-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-text { flex: 1; min-width: 0; }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .card-sub {
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-top: 3px;
+    }
+
+    .card-arrow {
+      color: var(--accent2);
+      font-size: 18px;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .link-card:hover .card-arrow {
+      transform: translateX(3px);
+      color: var(--accent);
+    }
+
+    .badge-pr {
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      background: var(--pink-light);
+      color: var(--accent);
+      border: 1px solid var(--pink-mid);
+      flex-shrink: 0;
+    }
+
+    /* SNS行 */
+    .sns-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .sns-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+      color: var(--text-sub);
+      transition: all 0.2s;
+    }
+
+    .sns-btn:hover {
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .sns-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: white;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 2px 8px rgba(232,96,122,0.07);
+      transition: all 0.2s;
+    }
+
+    .sns-btn:hover .sns-icon {
+      border-color: var(--border-hover);
+      box-shadow: 0 4px 16px rgba(232,96,122,0.18);
+    }
+
+    .sns-label {
+      font-size: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    /* フッター */
+    .footer {
+      text-align: center;
+      margin-top: 48px;
+      font-size: 11px;
+      color: var(--text-sub);
+      opacity: 0.6;
+      letter-spacing: 0.1em;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- プロフィール -->
+  <div class="profile">
+    <div class="avatar-wrap">
+      <div class="avatar-placeholder">🔮</div>
+      <!-- プロフ画像があれば↑を↓に差し替え -->
+      <!-- <img class="avatar" src="プロフ画像URL" alt="七水南"> -->
+    </div>
+
+    <div class="name">七水 南／魔女のみなみさん</div>
+
+    <p class="bio">
+      四柱推命・数秘術・タロット歴20年以上<br>
+      お辛い時は一人で抱え込まずに、<br>お話聞かせてください💞
+    </p>
+
+  </div>
+
+  <!-- 動的セクション -->
+  <div id="dynamic-sections"></div>
+
+  <div class="footer">© 七水 南 / Cure Communicate</div>
+</div>
+
+<script>
+  const GITHUB_USER = 'marjoly88-svg';
+  const GITHUB_REPO = 'links';
+
+  async function loadLinks() {
+    try {
+      const res = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/links.json?t=${Date.now()}`);
+      const data = await res.json();
+      renderSections(data.sections);
+    } catch(e) {
+      console.error('links.json読み込み失敗', e);
+    }
+  }
+
+  function renderSections(sections) {
+    const container = document.getElementById('dynamic-sections');
+    container.innerHTML = '';
+    sections.forEach(section => {
+      const visibleItems = section.items.filter(i => i.visible);
+      if (!visibleItems.length) return;
+      const div = document.createElement('div');
+      div.className = 'section';
+      if (section.type === 'sns') {
+        div.innerHTML = `<div class="section-title">${section.title}</div><div class="sns-row"></div>`;
+        const row = div.querySelector('.sns-row');
+        visibleItems.forEach(item => {
+          const a = document.createElement('a');
+          a.className = 'sns-btn';
+          a.href = item.url;
+          a.target = '_blank';
+          a.onclick = () => trackClick(item.label);
+          a.innerHTML = `<div class="sns-icon">${item.icon}</div><span class="sns-label">${item.label}</span>`;
+          row.appendChild(a);
+        });
+      } else {
+        div.innerHTML = `<div class="section-title">${section.title}</div>`;
+        visibleItems.forEach(item => {
+          const a = document.createElement('a');
+          a.className = 'link-card';
+          a.href = item.url;
+          a.target = '_blank';
+          a.onclick = () => trackClick(item.title);
+          a.innerHTML = `
+            <div class="card-icon">${item.icon}</div>
+            <div class="card-text">
+              <div class="card-title">${item.title}</div>
+              ${item.sub ? `<div class="card-sub">${item.sub}</div>` : ''}
+            </div>
+            ${item.badge ? `<div class="badge-pr">${item.badge}</div>` : '<div class="card-arrow">›</div>'}
+          `;
+          div.appendChild(a);
+        });
+      }
+      container.appendChild(div);
+    });
+  }
+
+  loadLinks();
+</script>
+</body>
+</html>
