@@ -281,10 +281,17 @@
     const user = document.getElementById('gh-user').value;
     const repo = document.getElementById('gh-repo').value;
     try {
-      const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/links.json?t=${Date.now()}`);
+      const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/links.json`);
       if (!res.ok) throw new Error('ファイルが見つかりません');
       const json = await res.json();
-      data = JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g, '')))));
+      if (json.content) {
+        data = JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g, '')))));
+      } else if (json.sha) {
+        // 1MB超：blobsAPIで取得
+        const blobRes = await fetch(`https://api.github.com/repos/${user}/${repo}/git/blobs/${json.sha}`);
+        const blob = await blobRes.json();
+        data = JSON.parse(decodeURIComponent(escape(atob(blob.content.replace(/\n/g, '')))));
+      }
       renderSections();
       updateProfilePreview((data.profile && data.profile.image) || '');
       const urlEl = document.getElementById('profile-img-url');
@@ -481,18 +488,16 @@
     }
   }
 
-  // アイテム画像ファイルアップロード
+  // アイテム画像ファイルアップロード（圧縮あり）
   function onItemImageFile(input) {
     const file = input.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
+    resizeImage(file, 120, dataUrl => {
       const row = input.closest('.item-row');
       const urlInput = row.querySelector('.item-image-url');
-      urlInput.value = e.target.result;
+      urlInput.value = dataUrl;
       onItemImageUrl(urlInput);
-    };
-    reader.readAsDataURL(file);
+    });
   }
 
   // プロフィール画像プレビュー更新
@@ -509,14 +514,30 @@
     }
   }
 
-  // プロフィール画像ファイルアップロード
+  // プロフィール画像ファイルアップロード（圧縮あり）
   function onProfileFile(input) {
     const file = input.files[0];
     if (!file) return;
+    resizeImage(file, 200, dataUrl => {
+      document.getElementById('profile-img-url').value = dataUrl;
+      updateProfilePreview(dataUrl);
+    });
+  }
+
+  // 画像リサイズ（maxSizepx正方形に収める、JPEG圧縮）
+  function resizeImage(file, maxSize, callback) {
     const reader = new FileReader();
     reader.onload = e => {
-      document.getElementById('profile-img-url').value = e.target.result;
-      updateProfilePreview(e.target.result);
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(maxSize / img.width, maxSize / img.height, 1);
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        callback(canvas.toDataURL('image/jpeg', 0.8));
+      };
+      img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   }
