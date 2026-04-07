@@ -417,8 +417,10 @@
 
   async function loadLinks() {
     try {
-      const res = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/links.json?t=${Date.now()}`);
-      const data = await res.json();
+      const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/links.json`);
+      if (!res.ok) throw new Error('fetch failed');
+      const json = await res.json();
+      const data = JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g, '')))));
       if (data.profile && data.profile.image) {
         const wrap = document.querySelector('.avatar-wrap');
         wrap.innerHTML = `<img class="avatar" src="${data.profile.image}" alt="プロフィール画像">`;
