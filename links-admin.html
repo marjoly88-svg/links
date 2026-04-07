@@ -227,26 +227,35 @@
 
   let data = null;
 
+  // ログイン状態を復元
+  function showAdmin() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-screen').style.display = 'block';
+    const saved = localStorage.getItem('gh_token');
+    if (saved) document.getElementById('gh-token').value = saved;
+    loadFromGitHub();
+  }
+
   // ログイン
   function login() {
     const pw = document.getElementById('password-input').value;
     if (pw === ADMIN_PASSWORD) {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('admin-screen').style.display = 'block';
-      // 保存済みトークン復元
-      const saved = localStorage.getItem('gh_token');
-      if (saved) document.getElementById('gh-token').value = saved;
-      loadFromGitHub();
+      localStorage.setItem('admin_logged_in', '1');
+      showAdmin();
     } else {
       document.getElementById('login-error').textContent = 'パスワードが違います';
     }
   }
 
   function logout() {
+    localStorage.removeItem('admin_logged_in');
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('admin-screen').style.display = 'none';
     document.getElementById('password-input').value = '';
   }
+
+  // 初回ロード時にログイン済みなら管理画面を表示
+  if (localStorage.getItem('admin_logged_in') === '1') showAdmin();
 
   // GitHubからJSONを読み込む
   async function loadFromGitHub() {
