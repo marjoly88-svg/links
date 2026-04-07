@@ -237,7 +237,7 @@
       const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/links.json?t=${Date.now()}`);
       if (!res.ok) throw new Error('ファイルが見つかりません');
       const json = await res.json();
-      data = JSON.parse(atob(json.content.replace(/\n/g, '')));
+      data = JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g, '')))));
       renderSections();
       showToast('読み込み完了！');
     } catch(e) {
