@@ -372,6 +372,95 @@
       letter-spacing: 0.05em;
     }
 
+    /* タブ */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 20px 0 16px;
+      background: white;
+      border-radius: 16px;
+      padding: 6px;
+      border: 1px solid var(--border);
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 9px 0;
+      border: none;
+      border-radius: 12px;
+      font-size: 13px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: transparent;
+      color: var(--text-sub);
+      letter-spacing: 0.05em;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #e8607a, #f9a8c0);
+      color: white;
+      box-shadow: 0 2px 10px rgba(232,96,122,0.3);
+    }
+
+    /* ショップグリッド */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .shop-card {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--text);
+      display: block;
+      transition: all 0.22s ease;
+      box-shadow: 0 2px 8px rgba(232,96,122,0.06);
+    }
+    .shop-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(232,96,122,0.15);
+      border-color: var(--border-hover);
+    }
+    .shop-card-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      background: var(--pink-light);
+    }
+    .shop-card-img-placeholder {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: linear-gradient(135deg, #fce8ee, #f9d0db);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+    .shop-card-body {
+      padding: 10px 12px 12px;
+    }
+    .shop-card-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+    .shop-card-desc {
+      font-size: 10px;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+    .shop-card-star {
+      font-size: 11px;
+      color: var(--accent2);
+      margin-top: 6px;
+    }
+
     /* フッター */
     .footer {
       text-align: center;
@@ -409,8 +498,24 @@
 
   </div>
 
-  <!-- 動的セクション -->
-  <div id="dynamic-sections"></div>
+  <!-- SNSセクション（常時表示） -->
+  <div id="sns-section"></div>
+
+  <!-- タブ -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('links', this)">🔗 リンク</button>
+    <button class="tab-btn" onclick="switchTab('shop', this)">🛍️ ショップ</button>
+  </div>
+
+  <!-- リンクタブ -->
+  <div id="links-tab">
+    <div id="dynamic-sections"></div>
+  </div>
+
+  <!-- ショップタブ -->
+  <div id="shop-tab" style="display:none">
+    <div class="shop-grid" id="shop-grid"></div>
+  </div>
 
   <div class="footer">© 七水 南 / Cure Communicate</div>
 </div>
@@ -435,14 +540,17 @@
         }
       }
       renderSections(data.sections);
+      renderShop(data.shop_items || []);
     } catch(e) {
       console.error('links.json読み込み失敗', e);
     }
   }
 
   function renderSections(sections) {
-    const container = document.getElementById('dynamic-sections');
-    container.innerHTML = '';
+    const snsContainer = document.getElementById('sns-section');
+    const linksContainer = document.getElementById('dynamic-sections');
+    snsContainer.innerHTML = '';
+    linksContainer.innerHTML = '';
     sections.forEach(section => {
       const visibleItems = section.items.filter(i => i.visible);
       if (!visibleItems.length) return;
@@ -461,6 +569,7 @@
           a.innerHTML = `<div class="sns-icon">${snsIconContent}</div><span class="sns-label">${item.label}</span>`;
           row.appendChild(a);
         });
+        snsContainer.appendChild(div);
       } else {
         div.innerHTML = `<div class="section-title">${section.title}</div>`;
         visibleItems.forEach(item => {
@@ -480,9 +589,40 @@
           `;
           div.appendChild(a);
         });
+        linksContainer.appendChild(div);
       }
-      container.appendChild(div);
     });
+  }
+
+  function renderShop(items) {
+    const grid = document.getElementById('shop-grid');
+    grid.innerHTML = '';
+    items.filter(i => i.visible !== false).forEach(item => {
+      const a = document.createElement('a');
+      a.className = 'shop-card';
+      a.href = item.url || '#';
+      a.target = '_blank';
+      a.onclick = () => trackClick(item.title);
+      const imgHtml = item.image
+        ? `<img class="shop-card-img" src="${item.image}" alt="${item.title}" loading="lazy">`
+        : `<div class="shop-card-img-placeholder">🛍️</div>`;
+      a.innerHTML = `
+        ${imgHtml}
+        <div class="shop-card-body">
+          <div class="shop-card-title">${item.title}</div>
+          ${item.description ? `<div class="shop-card-desc">${item.description}</div>` : ''}
+          <div class="shop-card-star">✦</div>
+        </div>
+      `;
+      grid.appendChild(a);
+    });
+  }
+
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('links-tab').style.display = tab === 'links' ? '' : 'none';
+    document.getElementById('shop-tab').style.display = tab === 'shop' ? '' : 'none';
   }
 
   loadLinks();
