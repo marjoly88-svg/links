@@ -269,6 +269,13 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      overflow: hidden;
+    }
+    .card-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
     }
 
     .card-text { flex: 1; min-width: 0; }
@@ -342,6 +349,13 @@
       font-size: 24px;
       box-shadow: 0 2px 8px rgba(232,96,122,0.07);
       transition: all 0.2s;
+      overflow: hidden;
+    }
+    .sns-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 14px;
     }
 
     .sns-btn:hover .sns-icon {
@@ -391,118 +405,89 @@
 
   </div>
 
-  <!-- SNS -->
-  <div class="section">
-    <div class="section-title">✦ SNS・連絡先</div>
-
-    <div class="sns-row">
-      <a class="sns-btn" href="https://lin.ee/i94pN1y" target="_blank" onclick="trackClick('LINE')">
-        <div class="sns-icon">💚</div>
-        <span class="sns-label">LINE</span>
-      </a>
-      <a class="sns-btn" href="https://www.tiktok.com/@yumenotarot" target="_blank" onclick="trackClick('TikTok')">
-        <div class="sns-icon">🎵</div>
-        <span class="sns-label">TikTok</span>
-      </a>
-      <a class="sns-btn" href="https://www.youtube.com/channel/UCvjidioUBAI9c4O8OLicLCw/featured?sub_confirmation=1" target="_blank" onclick="trackClick('YouTube')">
-        <div class="sns-icon">▶️</div>
-        <span class="sns-label">YouTube</span>
-      </a>
-      <a class="sns-btn" href="https://www.instagram.com/yumenouranai/" target="_blank" onclick="trackClick('Instagram')">
-        <div class="sns-icon">📸</div>
-        <span class="sns-label">Instagram</span>
-      </a>
-      <a class="sns-btn" href="https://twitter.com/yumenouranai" target="_blank" onclick="trackClick('Twitter')">
-        <div class="sns-icon">𝕏</div>
-        <span class="sns-label">X</span>
-      </a>
-      <a class="sns-btn" href="mailto:yumemetarot@gmail.com" onclick="trackClick('メール')">
-        <div class="sns-icon">📧</div>
-        <span class="sns-label">お仕事依頼</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- PR -->
-  <div class="section">
-    <div class="section-title">✦ おすすめ</div>
-
-    <a class="link-card" href="https://px.a8.net/svt/ejp?a8mat=45DWQ9+AGVEPE+48YY+5YJRM" target="_blank" onclick="trackClick('PR復縁')">
-      <div class="card-icon">💖</div>
-      <div class="card-text">
-        <div class="card-title">魂の絆を取り戻す復縁・不倫専門鑑定</div>
-        <div class="card-sub">複雑な恋愛・復縁のお悩みに</div>
-      </div>
-      <div class="badge-pr">PR</div>
-    </a>
-
-    <a class="link-card" href="https://px.a8.net/svt/ejp?a8mat=3ZJQZ3+CWE4MQ+2PEO+BX3J5" target="_blank" onclick="trackClick('PR初回無料')">
-      <div class="card-icon">🔮</div>
-      <div class="card-text">
-        <div class="card-title">初回最大30分無料！実力派占い師多数</div>
-        <div class="card-sub">複雑な恋愛問題を解決する占い鑑定</div>
-      </div>
-      <div class="badge-pr">PR</div>
-    </a>
-
-    <a class="link-card" href="https://px.a8.net/svt/ejp?a8mat=4AXA8C+E8M8MQ+2PEO+1HKDAR&a8ejpredirect=https://coconala.com/categories/2?service_kind=0" target="_blank" onclick="trackClick('PRcoconala')">
-      <div class="card-icon">⭐</div>
-      <div class="card-text">
-        <div class="card-title">遠隔霊視で叶える恋愛成就</div>
-        <div class="card-sub">業界No.1・総勢1400名以上在籍</div>
-      </div>
-      <div class="badge-pr">PR</div>
-    </a>
-  </div>
-
-  <!-- 鑑定メニュー -->
-  <div class="section">
-    <div class="section-title">✦ 鑑定を受ける</div>
-
-    <a class="link-card" href="https://cupids-seven.vercel.app/index.html" target="_blank" onclick="trackClick('チャット鑑定')">
-      <div class="card-icon">💬</div>
-      <div class="card-text">
-        <div class="card-title">チャット鑑定</div>
-        <div class="card-sub">ちょっと話したい夜に。キューピッズ</div>
-      </div>
-      <div class="card-arrow">›</div>
-    </a>
-
-    <a class="link-card" href="https://cupids-denwa.vercel.app/" target="_blank" onclick="trackClick('電話鑑定')">
-      <div class="card-icon">📞</div>
-      <div class="card-text">
-        <div class="card-title">電話鑑定</div>
-        <div class="card-sub">直接話せる安心感。南と話せる電話鑑定</div>
-      </div>
-      <div class="card-arrow">›</div>
-    </a>
-
-    <a class="link-card" href="https://minamisan.stores.jp/" target="_blank" onclick="trackClick('STORESメール鑑定')">
-      <div class="card-icon">📩</div>
-      <div class="card-text">
-        <div class="card-title">メール鑑定・各種購入</div>
-        <div class="card-sub">魔女のみなみさん オンラインショップ</div>
-      </div>
-      <div class="card-arrow">›</div>
-    </a>
-  </div>
-
-  <!-- ショップ -->
-  <div class="section">
-    <div class="section-title">✦ ショップ</div>
-
-    <a class="link-card" href="https://marjoly.base.shop/" target="_blank" onclick="trackClick('BASE魔法雑貨')">
-      <div class="card-icon">🧿</div>
-      <div class="card-text">
-        <div class="card-title">魔法雑貨店 マジカルマーケット</div>
-        <div class="card-sub">祈祷入り形代・パワーストーン</div>
-      </div>
-      <div class="card-arrow">›</div>
-    </a>
-  </div>
+  <!-- 動的セクション -->
+  <div id="dynamic-sections"></div>
 
   <div class="footer">© 七水 南 / Cure Communicate</div>
 </div>
 
+<script>
+  const GITHUB_USER = 'marjoly88-svg';
+  const GITHUB_REPO = 'links';
+
+  async function loadLinks() {
+    try {
+      let data;
+      const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/links.json`);
+      if (res.ok) {
+        const json = await res.json();
+        if (json.content) {
+          // 1MB以下：通常のデコード
+          data = JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g, '')))));
+        } else if (json.sha) {
+          // 1MB超：blobsAPIで取得
+          const blobRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/git/blobs/${json.sha}`);
+          const blob = await blobRes.json();
+          data = JSON.parse(decodeURIComponent(escape(atob(blob.content.replace(/\n/g, '')))));
+        }
+      }
+      if (!data) throw new Error('fetch failed');
+      if (data.profile && data.profile.image) {
+        const wrap = document.querySelector('.avatar-wrap');
+        wrap.innerHTML = `<img class="avatar" src="${data.profile.image}" alt="プロフィール画像">`;
+      }
+      renderSections(data.sections);
+    } catch(e) {
+      console.error('links.json読み込み失敗', e);
+    }
+  }
+
+  function renderSections(sections) {
+    const container = document.getElementById('dynamic-sections');
+    container.innerHTML = '';
+    sections.forEach(section => {
+      const visibleItems = section.items.filter(i => i.visible);
+      if (!visibleItems.length) return;
+      const div = document.createElement('div');
+      div.className = 'section';
+      if (section.type === 'sns') {
+        div.innerHTML = `<div class="section-title">${section.title}</div><div class="sns-row"></div>`;
+        const row = div.querySelector('.sns-row');
+        visibleItems.forEach(item => {
+          const a = document.createElement('a');
+          a.className = 'sns-btn';
+          a.href = item.url;
+          a.target = '_blank';
+          a.onclick = () => trackClick(item.label);
+          const snsIconContent = item.image ? `<img src="${item.image}" alt="${item.label}">` : item.icon;
+          a.innerHTML = `<div class="sns-icon">${snsIconContent}</div><span class="sns-label">${item.label}</span>`;
+          row.appendChild(a);
+        });
+      } else {
+        div.innerHTML = `<div class="section-title">${section.title}</div>`;
+        visibleItems.forEach(item => {
+          const a = document.createElement('a');
+          a.className = 'link-card';
+          a.href = item.url;
+          a.target = '_blank';
+          a.onclick = () => trackClick(item.title);
+          const cardIconContent = item.image ? `<img src="${item.image}" alt="${item.title}">` : item.icon;
+          a.innerHTML = `
+            <div class="card-icon">${cardIconContent}</div>
+            <div class="card-text">
+              <div class="card-title">${item.title}</div>
+              ${item.sub ? `<div class="card-sub">${item.sub}</div>` : ''}
+            </div>
+            ${item.badge ? `<div class="badge-pr">${item.badge}</div>` : '<div class="card-arrow">›</div>'}
+          `;
+          div.appendChild(a);
+        });
+      }
+      container.appendChild(div);
+    });
+  }
+
+  loadLinks();
+</script>
 </body>
 </html>
