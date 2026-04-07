@@ -374,19 +374,22 @@
 
     /* タブ */
     .tabs {
-      display: flex;
+      display: inline-flex;
       gap: 4px;
-      margin: 20px 0 16px;
+      margin: 16px auto;
       background: #f9d0db;
-      border-radius: 14px;
-      padding: 5px;
+      border-radius: 12px;
+      padding: 4px;
+      width: auto;
+    }
+    .tabs-wrap {
+      text-align: center;
     }
     .tab-btn {
-      flex: 1;
-      padding: 8px 0;
+      padding: 5px 20px;
       border: none;
-      border-radius: 10px;
-      font-size: 13px;
+      border-radius: 8px;
+      font-size: 11px;
       font-family: 'Noto Sans JP', sans-serif;
       font-weight: 500;
       cursor: pointer;
@@ -394,11 +397,12 @@
       color: #c08090;
       letter-spacing: 0.05em;
       transition: all 0.2s;
+      white-space: nowrap;
     }
     .tab-btn.active {
       background: white;
       color: var(--accent);
-      box-shadow: 0 2px 8px rgba(232,96,122,0.15);
+      box-shadow: 0 1px 6px rgba(232,96,122,0.18);
     }
 
     /* ショップグリッド */
@@ -501,9 +505,11 @@
   <div id="sns-section"></div>
 
   <!-- タブ -->
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('links', this)">リンク</button>
-    <button class="tab-btn" onclick="switchTab('shop', this)">ショップ</button>
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('links', this)">リンク</button>
+      <button class="tab-btn" onclick="switchTab('shop', this)">ショップ</button>
+    </div>
   </div>
 
   <!-- リンクタブ -->
