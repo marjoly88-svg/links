@@ -8,7 +8,7 @@
         {
           "id": "line",
           "label": "LINE",
-          "icon": "💚",
+          "icon": "📱",
           "url": "https://lin.ee/i94pN1y",
           "visible": true
         },
@@ -43,7 +43,7 @@
         {
           "id": "email",
           "label": "お仕事依頼",
-          "icon": "📧",
+          "icon": "✉",
           "url": "mailto:yumemetarot@gmail.com",
           "visible": true
         }
@@ -126,7 +126,7 @@
           "id": "base",
           "title": "魔法雑貨店 マジカルマーケット",
           "sub": "祈祷入り形代・パワーストーン",
-          "icon": "🧿",
+          "icon": "🧙‍♀️",
           "url": "https://marjoly.base.shop/",
           "badge": "",
           "visible": true
