@@ -419,6 +419,10 @@
     try {
       const res = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/links.json?t=${Date.now()}`);
       const data = await res.json();
+      if (data.profile && data.profile.image) {
+        const wrap = document.querySelector('.avatar-wrap');
+        wrap.innerHTML = `<img class="avatar" src="${data.profile.image}" alt="プロフィール画像">`;
+      }
       renderSections(data.sections);
     } catch(e) {
       console.error('links.json読み込み失敗', e);
