@@ -330,7 +330,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 5px;
       text-decoration: none;
       color: var(--text-sub);
       transition: all 0.2s;
@@ -342,15 +341,15 @@
     }
 
     .sns-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 14px;
+      width: 25px;
+      height: 25px;
+      border-radius: 7px;
       background: white;
       border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 12px;
       box-shadow: 0 2px 8px rgba(232,96,122,0.07);
       transition: all 0.2s;
       overflow: hidden;
@@ -359,109 +358,12 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 14px;
+      border-radius: 7px;
     }
 
     .sns-btn:hover .sns-icon {
       border-color: var(--border-hover);
       box-shadow: 0 4px 16px rgba(232,96,122,0.18);
-    }
-
-    .sns-label {
-      font-size: 10px;
-      letter-spacing: 0.05em;
-    }
-
-    /* タブ */
-    .tabs {
-      display: inline-flex;
-      gap: 4px;
-      margin: 16px auto;
-      background: #f9d0db;
-      border-radius: 12px;
-      padding: 4px;
-      width: auto;
-    }
-    .tabs-wrap {
-      text-align: center;
-    }
-    .tab-btn {
-      padding: 5px 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 11px;
-      font-family: 'Noto Sans JP', sans-serif;
-      font-weight: 500;
-      cursor: pointer;
-      background: transparent;
-      color: #c08090;
-      letter-spacing: 0.05em;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .tab-btn.active {
-      background: white;
-      color: var(--accent);
-      box-shadow: 0 1px 6px rgba(232,96,122,0.18);
-    }
-
-    /* ショップグリッド */
-    .shop-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .shop-card {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-      text-decoration: none;
-      color: var(--text);
-      display: block;
-      transition: all 0.22s ease;
-      box-shadow: 0 2px 8px rgba(232,96,122,0.06);
-    }
-    .shop-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(232,96,122,0.15);
-      border-color: var(--border-hover);
-    }
-    .shop-card-img {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      display: block;
-      background: var(--pink-light);
-    }
-    .shop-card-img-placeholder {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background: linear-gradient(135deg, #fce8ee, #f9d0db);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 36px;
-    }
-    .shop-card-body {
-      padding: 10px 12px 12px;
-    }
-    .shop-card-title {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text);
-      line-height: 1.4;
-      margin-bottom: 4px;
-    }
-    .shop-card-desc {
-      font-size: 10px;
-      color: var(--text-sub);
-      line-height: 1.5;
-    }
-    .shop-card-star {
-      font-size: 11px;
-      color: var(--accent2);
-      margin-top: 6px;
     }
 
     /* フッター */
@@ -504,23 +406,8 @@
   <!-- SNSセクション（常時表示） -->
   <div id="sns-section"></div>
 
-  <!-- タブ -->
-  <div class="tabs-wrap">
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('links', this)">リンク</button>
-      <button class="tab-btn" onclick="switchTab('shop', this)">ショップ</button>
-    </div>
-  </div>
-
-  <!-- リンクタブ -->
-  <div id="links-tab">
-    <div id="dynamic-sections"></div>
-  </div>
-
-  <!-- ショップタブ -->
-  <div id="shop-tab" style="display:none">
-    <div class="shop-grid" id="shop-grid"></div>
-  </div>
+  <!-- リンク一覧 -->
+  <div id="dynamic-sections"></div>
 
   <div class="footer">© 七水 南 / Cure Communicate</div>
 </div>
@@ -544,19 +431,19 @@
           document.getElementById('profile-bio').innerHTML = data.profile.bio.replace(/\n/g, '<br>');
         }
       }
-      renderSections(data.sections);
-      renderShop(data.shop_items || []);
+      renderSections(data.sections, data.shop_items || []);
     } catch(e) {
       console.error('links.json読み込み失敗', e);
     }
   }
 
-  function renderSections(sections) {
+  function renderSections(sections, shopItems) {
     const snsContainer = document.getElementById('sns-section');
     const linksContainer = document.getElementById('dynamic-sections');
     snsContainer.innerHTML = '';
     linksContainer.innerHTML = '';
     sections.forEach(section => {
+      if (section.id === 'pr') return;
       const visibleItems = section.items.filter(i => i.visible);
       if (!visibleItems.length) return;
       const div = document.createElement('div');
@@ -571,7 +458,7 @@
           a.target = '_blank';
           a.onclick = () => trackClick(item.label);
           const snsIconContent = item.image ? `<img src="${item.image}" alt="${item.label}">` : item.icon;
-          a.innerHTML = `<div class="sns-icon">${snsIconContent}</div><span class="sns-label">${item.label}</span>`;
+          a.innerHTML = `<div class="sns-icon">${snsIconContent}</div>`;
           row.appendChild(a);
         });
         snsContainer.appendChild(div);
@@ -597,37 +484,30 @@
         linksContainer.appendChild(div);
       }
     });
-  }
-
-  function renderShop(items) {
-    const grid = document.getElementById('shop-grid');
-    grid.innerHTML = '';
-    items.filter(i => i.visible !== false).forEach(item => {
-      const a = document.createElement('a');
-      a.className = 'shop-card';
-      a.href = item.url || '#';
-      a.target = '_blank';
-      a.onclick = () => trackClick(item.title);
-      const imgHtml = item.image
-        ? `<img class="shop-card-img" src="${item.image}" alt="${item.title}" loading="lazy">`
-        : `<div class="shop-card-img-placeholder">🛍️</div>`;
-      a.innerHTML = `
-        ${imgHtml}
-        <div class="shop-card-body">
-          <div class="shop-card-title">${item.title}</div>
-          ${item.description ? `<div class="shop-card-desc">${item.description}</div>` : ''}
-          <div class="shop-card-star">✦</div>
-        </div>
-      `;
-      grid.appendChild(a);
-    });
-  }
-
-  function switchTab(tab, btn) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('links-tab').style.display = tab === 'links' ? '' : 'none';
-    document.getElementById('shop-tab').style.display = tab === 'shop' ? '' : 'none';
+    const visibleShop = shopItems.filter(i => i.visible !== false);
+    if (visibleShop.length) {
+      const div = document.createElement('div');
+      div.className = 'section';
+      div.innerHTML = `<div class="section-title">✦ ショップ</div>`;
+      visibleShop.forEach(item => {
+        const a = document.createElement('a');
+        a.className = 'link-card';
+        a.href = item.url || '#';
+        a.target = '_blank';
+        a.onclick = () => trackClick(item.title);
+        const cardIconContent = item.image ? `<img src="${item.image}" alt="${item.title}">` : '🛍️';
+        a.innerHTML = `
+          <div class="card-icon">${cardIconContent}</div>
+          <div class="card-text">
+            <div class="card-title">${item.title}</div>
+            ${item.description ? `<div class="card-sub">${item.description}</div>` : ''}
+          </div>
+          <div class="card-arrow">›</div>
+        `;
+        div.appendChild(a);
+      });
+      linksContainer.appendChild(div);
+    }
   }
 
   loadLinks();
