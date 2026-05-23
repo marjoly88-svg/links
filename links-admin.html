@@ -90,6 +90,13 @@
       margin-bottom: 16px;
     }
     .section-title-text { font-size: 14px; font-weight: 500; color: #5a3040; }
+    .section-name-input {
+      flex: 1; padding: 5px 10px; border: 1px solid #f9d0db;
+      border-radius: 8px; font-size: 13px; font-weight: 500; color: #5a3040;
+      font-family: 'Noto Sans JP', sans-serif; outline: none; background: #fff5f7;
+      max-width: 240px;
+    }
+    .section-name-input:focus { border-color: #e8607a; background: white; }
     .btn-add-item {
       padding: 6px 14px; background: #fce8ee; color: #e8607a;
       border: 1px solid #f9d0db; border-radius: 8px; font-size: 12px;
@@ -411,6 +418,8 @@
     });
 
     data.sections.forEach((section, si) => {
+      const titleInput = document.querySelector(`[data-section-title="${si}"]`);
+      if (titleInput) section.title = titleInput.value.trim();
       const itemEls = document.querySelectorAll(`[data-section="${si}"] .item-row`);
       const newItems = [];
       itemEls.forEach(el => {
@@ -441,7 +450,7 @@
       block.className = 'section-block';
       block.innerHTML = `
         <div class="section-header">
-          <div class="section-title-text">${section.title}</div>
+          <input class="section-name-input" data-section-title="${si}" value="${section.title}" placeholder="セクション名">
           <button class="btn-add-item" onclick="addItem(${si})">＋ 追加</button>
         </div>
         <div class="items-list" data-section="${si}"></div>
