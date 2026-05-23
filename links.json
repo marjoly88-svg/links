@@ -188,7 +188,7 @@
       "title": "縁結びお守り",
       "description": "ピンクのハートに「縁結び御守」の文字を入れた、アクスタです。\n\n机の上やベッドサイド、スマホのそばなど、ふと目に入る場所に飾っていただけるように、やさしいピンクと桜、金色の小さなきらめきを添えて作りました。",
       "url": "https://marjoly.booth.pm/items/8346723",
-      "visible": true
+      "visible": false
     },
     {
       "id": "shop1",
@@ -196,7 +196,7 @@
       "title": "みなみの電話鑑定",
       "description": "なんでも話してね❤",
       "url": "https://cupids-denwa.vercel.app/minami.html?id=8FpR8u9oQgSgUaQUgpS8TRYgiQg2",
-      "visible": true
+      "visible": false
     },
     {
       "id": "shop_1775570353749",
@@ -204,7 +204,7 @@
       "title": "みなみとチャット鑑定",
       "description": "お互い空いた時間にやりとりできます♪100文字１往復",
       "url": "https://cupids-seven.vercel.app/fortune-profile.html?id=8FpR8u9oQgSgUaQUgpS8TRYgiQg2",
-      "visible": true
+      "visible": false
     },
     {
       "id": "shop_1775930729148",
@@ -212,7 +212,7 @@
       "title": "みなみのメール鑑定",
       "description": "2000文字以上の鑑定文でじっくり相談したい方向け",
       "url": "https://minamisan.stores.jp/items/671e3d14dbcf2501d843030c",
-      "visible": true
+      "visible": false
     },
     {
       "id": "shop_1775930608903",
@@ -220,7 +220,7 @@
       "title": "復縁の極意 ― The Art of Reconciliation",
       "description": "復縁が叶う人だけが知っている「極意」をまとめましたPDF",
       "url": "https://minamisan.stores.jp/items/69a9cad052c008c786d255f9",
-      "visible": true
+      "visible": false
     },
     {
       "id": "shop_1775930731448",
@@ -228,7 +228,7 @@
       "title": "【自分で占える】タロット・セルフリーディング記録シート",
       "description": "このシートは、タロットカードを引いたあとの「気づき」を丁寧に書き留めるための記録シートPDF",
       "url": "https://minamisan.stores.jp/items/699a0a2610a49242980ef13d",
-      "visible": true
+      "visible": false
     }
   ]
 }
