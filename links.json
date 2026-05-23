@@ -102,22 +102,22 @@
       "type": "card",
       "items": [
         {
+          "id": "tel",
+          "title": "みなみとお喋り",
+          "sub": "ひとりで抱えなくて大丈夫。そのまま話しかけてきて。",
+          "icon": "🔗",
+          "image": "https://i.postimg.cc/XY5GtgmH/キューピッズ_(1).png",
+          "url": "https://cupids-denwa.vercel.app/",
+          "badge": "",
+          "visible": true
+        },
+        {
           "id": "chat",
           "title": "みなみとチャット",
           "sub": "ちょっと話したい夜に。１往復100文字のチャット鑑定。",
           "icon": "🔗",
           "image": "https://i.postimg.cc/L6PNQPY0/キューピッズ_ロゴ.png",
           "url": "https://cupids-seven.vercel.app/index.html",
-          "badge": "",
-          "visible": true
-        },
-        {
-          "id": "tel",
-          "title": "みなみとお喋り",
-          "sub": "直接話せる安心感。南と話せる電話鑑定",
-          "icon": "🔗",
-          "image": "https://i.postimg.cc/XY5GtgmH/キューピッズ_(1).png",
-          "url": "https://cupids-denwa.vercel.app/",
           "badge": "",
           "visible": true
         },
