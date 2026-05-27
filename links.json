@@ -114,7 +114,7 @@
         {
           "id": "chat",
           "title": "みなみにチャット鑑定で相談する",
-          "sub": "ちょっと話したい夜に。１往復100文字のチャット鑑定。",
+          "sub": "ちょっと話したい夜に。チャットで相談する。",
           "icon": "🔗",
           "image": "https://i.postimg.cc/L6PNQPY0/キューピッズ_ロゴ.png",
           "url": "https://cupids-seven.vercel.app/index.html",
